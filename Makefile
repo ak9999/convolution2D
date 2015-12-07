@@ -25,10 +25,9 @@ LIBS_ALL= -L/usr/lib -L $(MATH_LIBS)
 
 all:
 	make convolution
-	make debug
 
 convolution:
-	$(CC) conv.cpp -o conv \
+	$(CC) conv.cpp -o convolution \
 		$(C++FLAGS)
 debug:
 	$(CC) conv.cpp -o debug \
