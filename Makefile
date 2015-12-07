@@ -38,5 +38,5 @@ clean:
 	(rm -f *.out;)
 	(rm -f *.txt;)
 	(rm -f debug;)
-	(rm -f conv;)
+	(rm -f convolution;)
 
