@@ -33,10 +33,17 @@ debug:
 	$(CC) conv.cpp -o debug \
 		$(DEBUG) $(C++FLAGS)
 
+ocl_convolution:
+	$(CC) conv_opencl.cpp -o ocl_convolution \
+		$(C++FLAGS)
+
+debug_ocl:
+	$(CC) conv_opencl.cpp -o ocl_debug \
+		$(DEBUG) $(C++FLAGS)
+
 clean:
 	(rm -f *.o;)
 	(rm -f *.out;)
 	(rm -f *.txt;)
 	(rm -f debug;)
 	(rm -f convolution;)
-
