@@ -63,7 +63,7 @@ int main(int argc, char * argv[])
 
     // Create vectors that will be used as arguments to the kernel.
 
-    vector<vector<int>> kernel {
+    vector<vector<int>> kernelIn {
         { 1, 0, 1 },
         { 1, 1, 0 },
         { 0, 0, 1 }
@@ -90,5 +90,6 @@ int main(int argc, char * argv[])
         { 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0, 0 }
     };
+
     return 0;
 }

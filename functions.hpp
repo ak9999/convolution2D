@@ -4,6 +4,14 @@
 #pragma GCC diagnostic ignored "-Wsign-compare"
 
 #include <vector>
+#include <iostream>
+
+// OpenCL includes
+#ifdef __APPLE__
+#include <OpenCL/opencl.h>
+#else
+#include <CL/opencl.h>
+#endif
 
 // Original convolution function dealing with 2D arrays.
 //void convolution2D(int (&output)[out_rows][out_cols], int (&input)[in_rows][in_cols], int (&kernel)[k_rows][k_cols]);
@@ -14,7 +22,7 @@ void convolutionVec(std::vector<std::vector<int> > &output, std::vector<std::vec
 // OpenCL functions
 cl_context CreateContext();
 cl_command_queue CreateCommandQueue(cl_context, cl_device_id *);
-cl_program CreateProgram(cl_context, cl_device_id, const char *);
+cl_program CreateProgram(cl_context, cl_device_id);
 
 bool CreateMemObjects(cl_context, cl_mem memObjects[3], float *, float *);
 void Cleanup(cl_context context, cl_command_queue commandQueue,
