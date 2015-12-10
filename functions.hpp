@@ -1,3 +1,5 @@
+// Abdullah Khan
+
 #ifndef __convolution_functions
 #define __convolution_functions
 
@@ -17,7 +19,7 @@
 //void convolution2D(int (&output)[out_rows][out_cols], int (&input)[in_rows][in_cols], int (&kernel)[k_rows][k_cols]);
 
 // New convolution function dealing with 2D vectors.
-void convolutionVec(std::vector<std::vector<int> > &output, std::vector<std::vector<int> > &input, std::vector<std::vector<int> > &kernel);
+void convolutionVec(int ** output, int ** input, int ** kernel);
 
 // OpenCL functions
 cl_context CreateContext();

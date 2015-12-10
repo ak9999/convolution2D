@@ -1,3 +1,4 @@
+// Abdullah Khan
 #include "functions.hpp"
 
 // System includes
@@ -13,23 +14,23 @@
 #define INPUT_SIZE 64
 #define OUT_SIZE 36
 
-void convolutionVec(std::vector<std::vector<int> > &output, std::vector<std::vector<int> > &input, std::vector<std::vector<int> > &kernel)
+void convolutionVec(int ** output, int ** input, int ** kernel)
 {
     int convolute = 0; // This holds the convolution results for an index.
     int x, y; // Used for input matrix index
 
 	// Fill output matrix: rows and columns are i and j respectively
-	for (int i = 0; i < output.size() - 1; i++)
+	for (int i = 0; i < 6; i++)
 	{
-		for (int j = 0; j < output[0].size() - 1; j++)
+		for (int j = 0; j < 6; j++)
 		{
 			x = i;
 			y = j;
 
 			// Kernel rows and columns are k and l respectively
-			for (int k = 0; k < kernel.size() - 1; k++)
+			for (int k = 0; k < 3; k++)
 			{
-				for (int l = 0; l < kernel[0].size() - 1; l++)
+				for (int l = 0; l < 3; l++)
 				{
 					// Convolute here.
 					convolute += kernel[k][l] * input[x][y];
