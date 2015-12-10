@@ -1,3 +1,5 @@
+# Written by Abdullah Khan
+
 #Compiler and compiler flags for standard g++
 CC=g++
 C++FLAGS=-Wall -std=c++11 -pedantic
