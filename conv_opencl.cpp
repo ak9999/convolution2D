@@ -3,6 +3,9 @@
 // System includes
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
+#include <random>
+#include <chrono>
 
 // Include convolution function
 #include "functions.hpp"
@@ -14,84 +17,59 @@
 #include <CL/opencl.h>
 #endif
 
+
+// typedefs
+typedef std::mt19937 G;  // mersenne_twister_engine for random numbers
+typedef std::uniform_int_distribution<> D; // Distribution range (inclusive)
+
+// namespaces
 using namespace std;
 
 int main(int argc, char * argv[])
 {
+    // For randomly generating numbers.
+    G g;
+    D d(0, 9); // Random number in range.
+    // Create arrays that will be used as arguments to the kernel.
 
-    // Set up OpenCL environment
+    int * k_array = new int[3*3]; // Initialize.
 
-    cl_context context = 0;
-    cl_command_queue commandQueue = 0;
-    cl_program program = 0;
-    cl_device_id device = 0;
-    cl_kernel kernel = 0;
-    cl_mem memObjects[3] = {0, 0, 0};
-    cl_int errNum;
-
-    // Create Context on first available platform.
-    context = CreateContext();
-
-    if(context == NULL)
+    for(int i = 0; i < 3; i++) // Fill it with random values 0-9.
     {
-        cerr << "Failed to create OpenCL context." << endl;
-        return -1;
+        for(int j = 0; j < 3; j++)
+            k_array[(i * 3) + j] = d(g);
     }
 
-    // Create a command queue on first available device
-	commandQueue = CreateCommandQueue(context, &device);
-	if(commandQueue == NULL)
-	{
-		Cleanup(context, commandQueue, program, kernel, memObjects);
-		return -1;
-	}
+    int * matrix = new int[8*8]; // Initialize.
 
-	// Create program from "convolution.cl" kernel source
-	program = CreateProgram(context, device, "convolution.cl");
-	if(program == NULL)
-	{
-		Cleanup(context, commandQueue, program, kernel, memObjects);
-		return -1;
-	}
+    for(int i = 0; i < 8; i++) // Fill with random values.
+    {
+        for(int j = 0; j < 8; j++)
+            matrix[(i * 8) + j] = d(g);
+    }
 
-	// Create OpenCL kernel
-	kernel = clCreateKernel(program, "convolution_kernel", NULL);
-	if(kernel == NULL)
-	{
-		cerr << "Failed to create kernel." << endl;
-		Cleanup(context, commandQueue, program, kernel, memObjects);
-		return -1;
-	}
+    int * out = new int[6*6]; // Initialize.
 
-    // Create vectors that will be used as arguments to the kernel.
+    for(int i = 0; i < 6; i++) // Fill with random values.
+    {
+        for(int j = 0; j < 6; j++)
+            out[(i * 6) + j] = 0;
+    }
 
-    vector<vector<int>> kernelIn {
-        { 1, 0, 1 },
-        { 1, 1, 0 },
-        { 0, 0, 1 }
-    };
+    convolute(matrix, 8, k_array, 3, out);
 
-    vector<vector<int>> matrixIn {
-        { 1, 0, 1, 0, 1, 0, 0, 0 },
-        { 1, 1, 1, 1, 0, 1, 0, 0 },
-        { 0, 1, 0, 0, 1, 1, 0, 1 },
-        { 0, 0, 0, 0, 0, 1, 1, 1 },
-        { 1, 1, 0, 0, 0, 1, 1, 0 },
-        { 0, 1, 0, 1, 0, 1, 0, 1 },
-        { 0, 0, 0, 0, 0, 1, 1, 1 },
-        { 1, 0, 1, 0, 1, 0, 1, 0 },
-        { 1, 1, 1, 1, 1, 1, 1, 1 }
-    };
+    for(int i = 0; i < 6; i++)
+    {
+        for(int j = 0; j < 6; j++)
+        {
+            cout << out[(i * 6) + j] << " ";
+        }
+        cout << endl;
+    }
 
-    vector<vector<int>> output {
-        { 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0 }
-    };
+    delete[] k_array;
+    delete[] matrix;
+    delete[] out;
 
     return 0;
 }
