@@ -49,3 +49,5 @@ clean:
 	(rm -f *.txt;)
 	(rm -f debug;)
 	(rm -f convolution;)
+	(rm -f ocl_convolution;)
+	(rm -f ocl_debug;)
