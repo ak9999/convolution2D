@@ -3,9 +3,7 @@
 // System includes
 #include <iostream>
 #include <cstdlib>
-#include <ctime>
 #include <random>
-#include <chrono>
 
 // Include convolution function
 #include "functions.hpp"
@@ -29,6 +27,7 @@ int main(int argc, char * argv[])
 {
     // For randomly generating numbers.
     G g;
+    g.seed(random_device()());
     D d(0, 9); // Random number in range.
     // Create arrays that will be used as arguments to the kernel.
 
