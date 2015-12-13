@@ -27,6 +27,7 @@ LIBS_ALL= -L/usr/lib -L $(MATH_LIBS)
 
 all:
 	make convolution
+	make ocl_convolution
 
 convolution:
 	$(CC) conv.cpp -o convolution \
