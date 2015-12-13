@@ -3,17 +3,25 @@
 // System includes
 #include <iostream>
 #include <cstdlib>
-#include <ctime>
+#include <random>
 
 // Convolution includes
 #include "functions.hpp"
 
+// typedefs
+typedef std::mt19937 G;  // mersenne_twister_engine for random numbers
+typedef std::uniform_int_distribution<> D; // Distribution range (inclusive)
+
+// namespaces
 using namespace std;
 
 int main(int argc, char * argv[])
 {
 
-    srand(time(0));
+    // For randomly generating numbers.
+    G g;
+    g.seed(random_device()());
+    D d(0, 9); // Random number in range.
 
     int ** kernel = new int*[3];
 
@@ -25,7 +33,7 @@ int main(int argc, char * argv[])
     for(int i = 0; i < 3; i++)
     {
         for(int j = 0; j < 3; j++)
-            kernel[i][j] = rand() % 10;
+            kernel[i][j] = d(g);
     }
 
     int ** matrixIn = new int*[8];
@@ -37,7 +45,7 @@ int main(int argc, char * argv[])
     for(int i = 0; i < 8; i++)
     {
         for(int j = 0; j < 8; j++)
-            matrixIn[i][j] = rand() % 10;
+            matrixIn[i][j] = d(g);
     }
 
     int ** output = new int*[6];
@@ -49,7 +57,7 @@ int main(int argc, char * argv[])
     for(int i = 0; i < 6; i++)
         output[i][i] = 0;
 
-    convolutionVec(output, matrixIn, kernel);
+    convolute(output, matrixIn, kernel);
 
     // Print out the resulting matrix.
     for(int i = 0; i < 6; i++)
