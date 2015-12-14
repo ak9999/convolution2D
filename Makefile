@@ -30,11 +30,11 @@ all:
 	make ocl_convolution
 
 convolution:
-	$(CC) conv.cpp -o convolution \
+	$(CC) convolution.cpp -o convolution \
 		$(C++FLAGS)
 
 ocl_convolution:
-	$(CC) conv_opencl.cpp -o ocl_convolution \
+	$(CC) opencl_convolution.cpp -o ocl_convolution \
 		$(C++FLAGS)
 
 clean:
