@@ -1,6 +1,11 @@
 # Matrix Convolution
 
-This is an implementation of matrix convolution.
+This is a demonstration of matrix convolution with C++ and OpenCL.
 
-Next step is to implement it with OpenCL.
+# Building and Running
 
+Run `make`.
+Depending on whether you want to run the C++ or OpenCL program, type
+`./convolution` or `./ocl_convolution`.
+
+If you are on Windows, leave out the `./` of course.
