@@ -18,10 +18,6 @@
 // Convolution function dealing with dynamically allocated 2D arrays.
 void convolute(int ** output, int ** input, int ** kernel);
 
-
-// Convolution for dynamically allocated pseudo-2D arrays.
-void convolute(const int * input, size_t M, const int * kernel, size_t K, int * r);
-
 // OpenCL functions
 cl_context CreateContext();
 cl_command_queue CreateCommandQueue(cl_context, cl_device_id *);

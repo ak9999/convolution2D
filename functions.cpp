@@ -11,6 +11,7 @@
 // Ignore warnings about deprecated declarations.
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
+// Regular convolution function.
 void convolute(int ** output, int ** input, int ** kernel)
 {
     int convolute = 0; // This holds the convolution results for an index.
@@ -42,13 +43,6 @@ void convolute(int ** output, int ** input, int ** kernel)
 	}
 }
 
-void convolute(const int * input, size_t M, const int * kernel, size_t K, int * r)
-{
-    for (size_t n = 0; n < M + K - 1; n++)
-        for (size_t k = 0; k < std::max(M, K); k++)
-            r[n] += (k < M ? input[k] : 0) * (n - k < K ? kernel[n - k] : 0);
-}
-
 // OpenCL functions
 cl_context CreateContext()
 {
@@ -57,8 +51,7 @@ cl_context CreateContext()
  	cl_platform_id firstPlatformID;
  	cl_context context = NULL;
 
- //Select an OpenCL platform
-
+    // Select an OpenCL platform
  	errNum = clGetPlatformIDs(1, &firstPlatformID, &numPlatforms);
 	if (errNum != CL_SUCCESS || numPlatforms <= 0)
 	{
@@ -66,8 +59,8 @@ cl_context CreateContext()
  		return NULL;
  	}
 
-	//Create an OpenCL context on the platform.
- 	//Default to GPU context first, CPU context next
+	// Create an OpenCL context on the platform.
+ 	// Default to GPU context first, CPU context next
 	cl_context_properties contextProperties[] =
 	{
  		CL_CONTEXT_PLATFORM,
@@ -96,7 +89,7 @@ cl_command_queue CreateCommandQueue(cl_context context, cl_device_id *device)
 	cl_command_queue commandQueue = NULL;
 	size_t deviceBufferSize = -1;
 
-	//Get the size of the devices buffer
+	// Get the size of the devices buffer
 	errNum=clGetContextInfo(context, CL_CONTEXT_DEVICES, 0, NULL, &deviceBufferSize);
 	if (errNum!=CL_SUCCESS)
 	{
@@ -109,7 +102,7 @@ cl_command_queue CreateCommandQueue(cl_context context, cl_device_id *device)
 		return NULL;
 	}
 
-	//Allocate memory for the devices buffer
+	// Allocate memory for the devices buffer
  	devices = new cl_device_id[deviceBufferSize/sizeof(cl_device_id)];
 	errNum = clGetContextInfo(context, CL_CONTEXT_DEVICES, deviceBufferSize, devices, NULL);
  	if (errNum != CL_SUCCESS)
@@ -119,7 +112,7 @@ cl_command_queue CreateCommandQueue(cl_context context, cl_device_id *device)
  		return NULL;
  	}
 
-	//Choose the first available device
+	// Choose the first available device
 	commandQueue = clCreateCommandQueue(context, devices[0], 0, NULL);
 	if (commandQueue == NULL)
  	{
@@ -157,7 +150,7 @@ cl_program CreateProgram(cl_context context, cl_device_id device, const char *fi
 	errNum = clBuildProgram(program, 0, NULL, NULL, NULL, NULL);
 	if (errNum != CL_SUCCESS)
  	{
- 		//Determine the reason for the error
+ 		// Determine the reason for the error
  		char buildLog[16384];
  		clGetProgramBuildInfo(program, device,
 		CL_PROGRAM_BUILD_LOG, sizeof(buildLog), buildLog, NULL);
