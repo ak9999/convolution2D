@@ -8,9 +8,9 @@
 // Convolution includes
 #include "functions.hpp"
 
-// typedefs
-typedef std::mt19937 G;  // mersenne_twister_engine for random numbers
-typedef std::uniform_int_distribution<> D; // Distribution range (inclusive)
+// using-declarations
+using G = std::mt19937; // mersenne_twister_engine for random numbers
+using D = std::uniform_int_distribution<>; // Distribution range (inclusive)
 
 // namespaces
 using namespace std;
